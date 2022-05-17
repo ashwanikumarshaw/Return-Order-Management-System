@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item key="GitSelectRepositoryPage.lastRepository" value="C:\Users\ashwa\git\GitPit\.git"/>
+	<item key="org.eclipse.egit.ui.internal.clone.GitSelectWizardPageWizardSel" value="2"/>
+	<list key="EGit.KnownHosts">
+		<item value="git.eclipse.org"/>
+		<item value="github.com"/>
+		<item value="bitbucket.org"/>
+	</list>
+	<list key="RepositorySelectionPage.UsedUris">
+		<item value="https://github.com/team-learn-programming-yourself/jwt-youtube.git"/>
+		<item value="https://github.com/ashfaqnisar/Return-Order-Management-System.git"/>
+		<item value="https://github.com/ashwanikumarshaw/Spicejet_CTS_RDP.git"/>
+		<item value="https://github.com/CodeToEatBiryani/GitPit.git"/>
+	</list>
+	<list key="CommitDialog.authorValues">
+		<item value="Ashwanikumarshaw &lt;Ashwanikumar11shaw@gmail.com&gt;"/>
+		<item value="&lt;mail.ctrlcctrlv@gmail.com&gt;"/>
+	</list>
+	<list key="CommitDialog.committerValues">
+		<item value="Ashwanikumarshaw &lt;Ashwanikumar11shaw@gmail.com&gt;"/>
+		<item value="&lt;mail.ctrlcctrlv@gmail.com&gt;"/>
+	</list>
+	<section name="GitImportWizard">
+	</section>
+	<section name="org.eclipse.egit.ui.internal.staging.StagingView">
+		<item key="HORIZONTAL_SASH_FORM_WEIGHT" value="500,500"/>
+		<item key="STAGING_SASH_FORM_WEIGHT" value="500,500"/>
+		<item key="sortItemState" value="false"/>
+	</section>
+	<section name="GitCommitMessageComponent">
+		<list key="C:\Users\ashwa\git\Spicejet_CTS_RDP\.git">
+			<item value="empty"/>
+		</list>
+	</section>
+</section>

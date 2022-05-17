@@ -1,0 +1,63 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowed-origins: "*"
+            allowed-methods: "*"
+            allowed-headers: "*"
+      routes:
+        - id: AUTHORIZATION-SERVICE
+          uri: lb://AUTHORIZATION-SERVICE
+          predicates:
+            - Path=/auth/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: AUTHORIZATION-SERVICE
+                fallbackuri: forward:/authFallback
+                
+        - id: COMPONENT-PROCESSING
+          uri: lb://COMPONENT-PROCESSING
+          predicates:
+            - Path=/return/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: COMPONENT-PROCESSING
+                fallbackuri: forward:/returnFallback
+                
+        - id: PACKAGING-AND-DELIVERY
+          uri: lb://PACKAGING-AND-DELIVERY
+          predicates:
+            - Path=/GetPackagingDeliveryCharge/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PACKAGING-AND-DELIVERY
+                fallbackuri: forward:/packagingAndDeliveryFallback
+
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
