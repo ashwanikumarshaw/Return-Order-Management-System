@@ -1,0 +1,337 @@
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div
+          class="card"
+          id="list1"
+          style="border-radius: 0.75rem; background-color: #eff1f2"
+        >
+          <div class="card-body py-4 px-4 px-md-5">
+            <p class="h1 text-center mt-3 mb-4 pb-3 text-primary">
+              <i class="fas fa-check-square me-1"></i>
+              <u>Processing Detail</u>
+            </p>
+
+            <form
+              class="pb-2"
+              [formGroup]="processdetail"
+              (ngSubmit)="calProcessDetail()"
+            >
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-row align-items-center">
+                    <label class="form-control" for="inputState"
+                      >User Name</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control form-control-lg"
+                      name="userName"
+                      placeholder="{{ processDetailValue.userName }}"
+                      formControlName="userName"
+                      readonly
+                    />
+                  </div>
+                  <div class="d-flex flex-row align-items-center">
+                    <label class="form-control" for="inputState"
+                      >Contact Number</label
+                    >
+                    <input
+                      type="phone"
+                      class="form-control form-control-lg"
+                      name="contactNumber"
+                      placeholder="9999999999"
+                      formControlName="contactNumber"
+                    />
+                  </div>
+                  <div class="d-flex flex-row align-items-center">
+                    <label class="form-control" for="inputState"
+                      >Component Name</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control form-control-lg"
+                      name="ComponentName"
+                      placeholder="Add new..."
+                      formControlName="componentName"
+                    />
+                  </div>
+                  <div class="d-flex flex-row align-items-center">
+                    <label class="form-control" for="inputState"
+                      >Component Type</label
+                    >
+
+                    <select
+                      formControlName="componentType"
+                      class="form-control form-control-lg"
+                    >
+                      <option [ngValue]="null" selected disabled>
+                        Select Component Type
+                      </option>
+                      <option
+                        *ngFor="let componentType of ComponentType"
+                        [ngValue]="componentType.name"
+                      >
+                        {{ componentType.name }}
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center">
+                    <label class="form-control" for="inputState"
+                      >Quantity</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control form-control-lg"
+                      name="quantity"
+                      placeholder="5"
+                      formControlName="quantity"
+                    />
+                  </div>
+                  <div class="d-flex flex-row align-items-center">
+                    <input
+                      type="checkbox"
+                      class="form-check-input custom-control-input"
+                      name="isPriorityRequest"
+                      formControlName="isPriorityRequest"
+                    />
+                    <label class="form-control" for="inputState"
+                      >Is Priority ?</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block mb-4">
+                Calculate
+              </button>
+            </form>
+
+            <div *ngIf="cal" class="pb-2">
+              <hr class="my-4" />
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-row align-items-center">
+                    <label class="form-control" for="form2Example1"
+                      >Request Id</label
+                    >
+                    <label
+                      type="test"
+                      name="username"
+                      class="form-control form-control-lg"
+                      >{{ response.requestId }}</label
+                    >
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center">
+                    <label class="form-control" for="form2Example2"
+                      >Processing Charge</label
+                    >
+                    <label
+                      type="test"
+                      name="username"
+                      class="form-control form-control-lg"
+                      >{{ response.processingCharge }}</label
+                    >
+                  </div>
+                  <div class="d-flex flex-row align-items-center">
+                    <label class="form-control" for="form2Example2"
+                      >Package And Delivery Charge</label
+                    >
+                    <label
+                      type="test"
+                      name="username"
+                      class="form-control form-control-lg"
+                      >{{ response.packageAndDeliveryCharge }}</label
+                    >
+                  </div>
+                  <div class="d-flex flex-row align-items-center">
+                    <label class="form-control" for="form2Example2"
+                      >Date Of Delivery</label
+                    >
+                    <label
+                      type="test"
+                      name="username"
+                      class="form-control form-control-lg"
+                      >{{ response.dateOfDelivery }}</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <div
+              class="d-flex justify-content-end align-items-center mb-4 pt-2 pb-3"
+            >
+              <p class="small mb-0 me-2 text-muted">Filter</p>
+              <select class="select">
+                <option value="1">All</option>
+                <option value="2">Completed</option>
+                <option value="4">Has due date</option>
+              </select>
+              <p class="small mb-0 ms-4 me-2 text-muted">Sort</p>
+              <select class="select">
+                <option value="1">Request Id</option>
+                <option value="2">Due date</option>
+              </select>
+              <a
+                href="#!"
+                style="color: #23af89"
+                data-mdb-toggle="tooltip"
+                title="Ascending"
+                ><i class="fas fa-sort-amount-down-alt ms-2"></i
+              ></a>
+            </div>
+
+            <div *ngIf="getProcess" class="row">
+              <div *ngFor="let result of allResponse" class="col-sm-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      {{ result.componentType }}:{{ result.componentName }}
+                    </h5>
+                    <form
+                      class="pb-2"
+                      [formGroup]="paymentForm"
+                      (ngSubmit)="pay()"
+                    >
+                      <p class="card-text">
+                        Request Id:{{ result.requestId }} <br />Quantity:{{
+                          result.quantity
+                        }}<br />
+                        processing Charge:{{ result.processingCharge }}<br />
+                        packageAndDeliveryCharge:{{
+                          result.packageAndDeliveryCharge
+                        }}<br />dateOfDelivery:{{ result.dateOfDelivery }}<br />
+                      </p>
+                      <div *ngIf="result.paid; then paid; else due">
+                        payment history
+                      </div>
+                      <ng-template #paid
+                        ><a class="btn btn-success" disabled
+                          >Processing Charge Paid</a
+                        ></ng-template
+                      >
+                      <ng-template #due
+                        ><button
+                          type="button"
+                          class="btn btn-danger"
+                          (click)="openPopup(result)"
+                        >
+                          Processing Paymet Due
+                        </button>
+                        <div
+                          class="modal"
+                          tabindex="-1"
+                          role="dialog"
+                          [ngStyle]="{ display: displayStyle }"
+                        >
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h4 class="modal-title">Paymet Getway</h4>
+                              </div>
+                              <div class="modal-body">
+                                <div class="card">
+                                  <div class="card-body">
+                                    <div
+                                      class="d-flex flex-row align-items-center"
+                                    >
+                                      <label
+                                        class="form-control"
+                                        for="inputState"
+                                        >Request Id</label
+                                      >
+                                      <input
+                                        type="text"
+                                        class="form-control form-control-lg"
+                                        name="requestId"
+                                        formControlName="requestId"
+                                        placeholder=" {{ requestId }}"
+                                        readonly
+                                      />
+                                    </div>
+                                    <div
+                                      class="d-flex flex-row align-items-center"
+                                    >
+                                      <label
+                                        class="form-control"
+                                        for="inputState"
+                                        >Processing Charge</label
+                                      >
+                                      <input
+                                        type="text"
+                                        class="form-control form-control-lg"
+                                        name="processingCharge"
+                                        formControlName="processingCharge"
+                                        placeholder="{{ processingCharge }}"
+                                        readonly
+                                      />
+                                    </div>
+                                    <div
+                                      class="d-flex flex-row align-items-center"
+                                    >
+                                      <label
+                                        class="form-control"
+                                        for="inputState"
+                                        >Card Number</label
+                                      >
+                                      <input
+                                        type="text"
+                                        class="form-control form-control-lg"
+                                        name="cardNumber"
+                                        formControlName="cardNumber"
+                                      />
+                                    </div>
+                                    <div
+                                      class="d-flex flex-row align-items-center"
+                                    >
+                                      <label
+                                        class="form-control"
+                                        for="inputState"
+                                        >credit Limit</label
+                                      >
+                                      <input
+                                        type="text"
+                                        class="form-control form-control-lg"
+                                        name="creditLimit"
+                                        formControlName="creditLimit"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary btn-block mb-4"
+                                >
+                                  Pay Now
+                                </button>
+                              </div>
+                              <div class="modal-footer">
+                                <button
+                                  type="button"
+                                  class="btn btn-danger mb-4"
+                                  (click)="closePopup()"
+                                >
+                                  Close
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
