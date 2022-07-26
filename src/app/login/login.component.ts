@@ -36,7 +36,8 @@ export class LoginComponent implements OnInit {
       },
       error => {
         console.log("Exception Occured" + error)
-        this.msg = "invalid credentials. please try again";
+        this.msg = "INVALID CREDENTIAL, please try again...";
+
       }
     );
   }

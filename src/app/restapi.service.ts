@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { User } from './user';
 import { ProcessDetail } from './process-detail';
 
@@ -20,7 +20,7 @@ export class RestapiService {
 
     let httpHeaders = new HttpHeaders();
     httpHeaders.set('Content-Type', 'application/json');
-    return this.http.post<any>("http://localhost:9191/auth/login", request, { headers: httpHeaders });//http://localhost:9191/auth/login9094
+    return this.http.post<any>("http://localhost:9191/auth/login", request, { headers: httpHeaders });//http://3.87.91.156:9191/auth/login
   }
 
 
@@ -41,11 +41,12 @@ export class RestapiService {
       contactNumber: processDetail.contactNumber,
       isPriorityRequest: processDetail.isPriorityRequest
     };//http://localhost:9090/return/ProcessDetail
-    return this.http.request<any>("POST", "http://localhost:9191/return/ProcessDetail", {
+    //http://3.87.91.156:9191/return/ProcessDetail
+    return this.http.request<any>("POST", "http://localhost:9090/return/ProcessDetail", {
       body: request,
       headers: httpHeaders,
       responseType: 'json'
-    });
+    }).pipe(catchError(this.handleError));
   }
 
   public CompleteProcessing(jwtToken: string, requestId: string, cardNumber: string, creditLimit: string, processingCharge: string): Observable<any> {
@@ -56,7 +57,7 @@ export class RestapiService {
 
     return this.http.post<any>("http://localhost:9191/return/CompleteProcessing/" + requestId + "/" + cardNumber + "/" + creditLimit + "/" + processingCharge, null, {
       headers: httpHeaders,
-    });
+    }).pipe(catchError(this.handleError));
   }
 
   public getProcessDetail(jwtToken: string, userName: string) {
@@ -68,9 +69,20 @@ export class RestapiService {
       headers: httpHeaders,
       responseType: 'json'
 
-    })
+    }).pipe(catchError(this.handleError));
   }
 
+  handleError(err: any) {
+    if (err instanceof HttpErrorResponse) {
+      console.log("Serverside Error");
+      window.alert("Serverside Error ::" + err.message);
+    }
+    else {
+      console.log("Clientside Error");
+      window.alert("Serverside Error ::" + err.message);
+    }
+    return throwError(err);
+  }
 }
 
 

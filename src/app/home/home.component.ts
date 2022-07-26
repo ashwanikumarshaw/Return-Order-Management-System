@@ -13,7 +13,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 
 export class HomeComponent implements OnInit {
   processDetailValue = new ProcessDetail();
-
+  alert = false;
   msg = '';
   ComponentType = [
     { id: 1, name: "INTEGRAL" },
@@ -34,8 +34,8 @@ export class HomeComponent implements OnInit {
     //this.processDetailValue.userName = authVar.username;
     this.processDetailValue.userName = '' + sessionStorage.getItem('username');
 
-    console.log(sessionStorage.getItem('token'));
-
+    //console.log(sessionStorage.getItem('token'));
+    this.alert = false;
     this.getProcessDetail();
   }
 
@@ -64,8 +64,9 @@ export class HomeComponent implements OnInit {
         this.getProcessDetail();
       },
       error => {
-        console.log("Exception Occured" + error)
-        this.msg = "invalid credentials. please try again";
+        console.log("Exception Occured" + error);
+        this.msg = "Exception Occured during calculate ProcessDetail call";
+        this.alert = true;
       }
     );
   }
@@ -80,8 +81,9 @@ export class HomeComponent implements OnInit {
         console.log("calProcessDetail" + this.getProcess);
       },
       error => {
-        console.log("Exception Occured" + error)
-        this.msg = "invalid credentials. please try again";
+        console.log("Exception Occured" + error);
+        this.msg = "Exception Occured during get ProcessDetail call";
+        this.alert = true;
       }
     );
   }
@@ -120,6 +122,7 @@ export class HomeComponent implements OnInit {
         },
         error => {
           console.log("Exception Occured" + error)
+
         }
       )
   }
